@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>AR Ad – With Audio and Aspect Ratio</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <style>
+    html, body {
+      margin: 0; padding: 0; overflow: hidden; background: #000;
+    }
+    #cam {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    #ad {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 90%;
+      max-height: 90%;
+      width: auto;
+      height: auto;
+      border-radius: 12px;
+      border: 2px solid #fff;
+      display: none;
+      z-index: 5;
+      background: #000;
+    }
+    #ppBtn {
+      position: absolute;
+      bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 28px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #fff;
+      color: #000;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 0 12px rgba(0,0,0,.6);
+    }
+  </style>
+</head>
+<body>
+
+<video id="cam" autoplay muted playsinline></video>
+<video id="ad" playsinline loop></video>
+<button id="ppBtn" style="display:none">Play</button>
+
+<script>
+  const btn = document.getElementById('ppBtn');
+  const ad = document.getElementById('ad');
+  const cam = document.getElementById('cam');
+
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    .then(stream => {
+      cam.srcObject = stream;
+      btn.style.display = 'block';
+    })
+    .catch(err => alert('Camera error: ' + err));
+
+  let videoLoaded = false;
+
+  btn.addEventListener('click', () => {
+    if (!videoLoaded) {
+      ad.src = 'advertisement/promo4.mp4';
+      ad.load();
+      ad.volume = 1;
+      videoLoaded = true;
+    }
+
+    if (ad.paused) {
+      ad.style.display = 'block';
+      ad.play().then(() => {
+        btn.textContent = 'Pause';
+      }).catch(e => {
+        alert('Playback failed: ' + e.message);
+      });
+    } else {
+      setTimeout(() => {
+        ad.pause();
+        btn.textContent = 'Play';
+      }, 100);
+    }
+  });
+</script>
+
+</body>
+</html>
