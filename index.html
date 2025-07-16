@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Markerless Video AR</title>
+    <meta charset="utf-8">
+    <title>Markerless AR Video</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@zappar/zappar-aframe@latest/dist/zappar-aframe.min.js"></script>
@@ -11,23 +12,24 @@
       zappar-permissions
       zappar-camera
       vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: true"
-      renderer="antialias: true; alpha: true"
       embedded
+      renderer="antialias: true; alpha: true"
     >
+      <a-assets>
+        <video id="myVideo" autoplay loop="true" playsinline webkit-playsinline crossorigin="anonymous">
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        </video>
+      </a-assets>
+
+      <!-- Tap to place video -->
       <a-entity zappar-instant="placement-mode: true">
         <a-video 
           src="#myVideo" 
-          width="1.5" height="1" 
+          width="1.5" height="0.84" 
           position="0 0 0"
-          autoplay loop 
           material="shader: flat;"
         ></a-video>
       </a-entity>
-
-      <a-assets>
-        <video id="myVideo" src="promo4.mp4" crossorigin="anonymous" autoplay loop playsinline webkit-playsinline></video>
-      </a-assets>
     </a-scene>
   </body>
 </html>
